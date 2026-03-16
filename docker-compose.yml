@@ -1,0 +1,23 @@
+services:
+  localstack:
+    image: localstack/localstack:3.4
+    container_name: localstack
+    ports:
+      - "4566:4566"       # Main LocalStack gateway
+      - "4510-4559:4510-4559"  # Legacy service ports (optional)
+    environment:
+      - SERVICES=s3,ec2,iam,dynamodb,sts
+      - DEFAULT_REGION=eu-west-1
+      - LOCALSTACK_AUTH_TOKEN=${LOCALSTACK_AUTH_TOKEN}
+      - DEBUG=0
+    volumes:
+      - localstack-data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  localstack-data:

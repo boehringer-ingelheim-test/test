@@ -1,0 +1,52 @@
+replicaCount: 1
+
+image:
+  repository: your-dockerhub-username/cloud-provisioner
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: NodePort
+  port: 8000
+  nodePort: 30080
+
+persistence:
+  enabled: true
+  size: 1Gi
+  storageClass: standard   # minikube default storage class
+  mountPath: /data
+
+config:
+  awsRegion: eu-west-1
+  localstackEndpoint: "http://localstack:4566"
+  terraformStateBucket: tf-state-provisioner
+  terraformStateDynamodbTable: terraform-lock
+  terraformWorkingDir: /app/terraform/environments/dev
+  databaseUrl: "sqlite:////data/provisioner.db"
+
+secrets:
+  # These are dummy values for LocalStack — not real AWS credentials
+  awsAccessKeyId: "test"
+  awsSecretAccessKey: "test"
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8000
+  initialDelaySeconds: 10
+  periodSeconds: 15
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 8000
+  initialDelaySeconds: 5
+  periodSeconds: 10
