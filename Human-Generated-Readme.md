@@ -53,7 +53,7 @@ I'll try to touch as much different parts of the requirement stack as possible, 
 
 ### Comments on other components
 
-- ci/cd - I've created an email (email: boehringer-ingelheim-test@protonmail.com, pswd: boehringer-ingelheim-test) and Github repo (email and passwords are the same: boehringer-ingelheim-test@protonmail.com) for CI/CD. There is a single repo 'test' for all the code.
+- ci/cd - I've created an email (email: boehringer-ingelheim-test@protonmail.com) and Github repo (under the same email) for CI/CD. There is a single repo 'test' for all the code.
 - Frontend - I'll use Python to create REST API endpoints, but I'll try and implement some server-side rendered frontend container if I'll have enough time. Or maybe even another container that will consume the endpoints? we'll see.
 - For production PostgreSQL with row level security would be much more powerful than SQLite.   
 - Testing is an apart concern for everything from python unit testing to Helm chart hashing to k8s pod probes to app E2E finals, I'm deliberately omiting testing as given system has high DoF and each component requiers different kind of testing. 
